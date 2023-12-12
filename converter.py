@@ -33,7 +33,7 @@ linecount = 0
 
 for i in range(0,len(text)-1): # for every word
     wordlength = len(text[i])
-    if lettercount+wordlength >19: # if the current line is 'full' (based of the normal letter width)
+    if lettercount+wordlength+1 >19 and text[i] != "⌬": # if the current line is 'full' (based of the normal letter width)
         pagetext += "\n" # move to the next line
         linecount += 1
         lettercount = 0
