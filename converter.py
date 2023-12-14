@@ -1,11 +1,4 @@
-# functions
-
-def writepage(page):
-    book = open(filename,"a")
-    book.write("\n#- "+page)
-    book.close
-
-# take info (title, author)
+# take info (title, book to copy)
 # title is the book title
 # author is the book author
 # copy is the text
@@ -13,12 +6,9 @@ def writepage(page):
 title = input("title :") 
 author = "Sneak__ on discord"
 copy = input("file you want to copy: ")
-filename = title+".stendhal"
-
-# created the output file with starting info
-book = open(filename,"w")
-book.write("title: "+title+"\nauthor: "+author+"\npages:")
-book.close()
+textcontent = ""
+partnum = 1 # the current page being saved/writen
+pagecount = 0 # the number of pages currently written
 
 # reading the copy text
 copytext = open(copy,"r")
@@ -37,11 +27,14 @@ for i in range(0,len(text)-1): # for every word
         pagetext += "\n" # move to the next line
         linecount += 1
         lettercount = 0
-    if linecount == 10: # if the page is 'full' (arbitarily set to 10 lines)
-        writepage(pagetext)
+
+    if linecount == 10: # if the page is 'full' (arbitarily set to 10 lines) -> save the page to textcontent
+        textcontent +="\n#- "+pagetext
+        pagecount+=1
         linecount = 0
         pagetext = ""
         lettercount = 0
+
     if text[i] == "⌬": # if the character is a line break
         pagetext += "\n"
         linecount += 1
@@ -50,3 +43,14 @@ for i in range(0,len(text)-1): # for every word
         pagetext += text[i] + " " # else add the word
         lettercount += len(text[i])+1
 
+    if pagecount == 100 or i == len(text)-2: # when a book is full OR its the end of the source text, write the file for it and go to the start the next book
+        book = open(title+str(partnum)+".stendhal","w")
+        book.write("title: "+title+"\nauthor: "+author+"\npages:")
+        book.write(textcontent)
+        book.close()
+        pagecount=0
+        partnum+=1
+        textcontent=""
+        pagetext=""
+
+print("text has been converted to stendhal books")
