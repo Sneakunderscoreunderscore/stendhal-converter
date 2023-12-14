@@ -45,7 +45,7 @@ for i in range(0,len(text)-1): # for every word
 
     if pagecount == 100 or i == len(text)-2: # when a book is full OR its the end of the source text, write the file for it and go to the start the next book
         book = open(title+str(partnum)+".stendhal","w")
-        book.write("title: "+title+"\nauthor: "+author+"\npages:")
+        book.write("title: "+title+"-pt."+str(partnum)+"\nauthor: "+author+"\npages:")
         book.write(textcontent)
         book.close()
         pagecount=0
